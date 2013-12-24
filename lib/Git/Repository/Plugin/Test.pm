@@ -4,6 +4,15 @@ use base 'Test::Builder::Module';
 
 sub _keywords { qw( run_exit_ok run_exit_is ) }
 
+sub run_exit_ok {
+    my $repo = shift;
+    return _run_exit($repo, 0, @_);
+}
+
+sub run_exit_is {
+    return _run_exit(@_);
+}
+
 sub _run_exit {
     my $repo = shift;
     my $expected_exit = shift;
@@ -27,15 +36,6 @@ sub _run_exit {
     }
 
     return $rv;
-}
-
-sub run_exit_ok {
-    my $repo = shift;
-    return _run_exit($repo, 0, @_);
-}
-
-sub run_exit_is {
-    return _run_exit(@_);
 }
 
 sub _split_args {
