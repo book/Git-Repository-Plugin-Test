@@ -7,7 +7,7 @@ sub _keywords { qw( run_exit_ok run_exit_is ) }
 sub _run_exit {
     my $repo = shift;
     my $expected_exit = shift;
-    my ($cmd, $opt) = split_args(@_);
+    my ($cmd, $opt) = _split_args(@_);
 
     unshift @$opt, (quiet => !$ENV{TEST_VERBOSE});
 
@@ -38,7 +38,7 @@ sub run_exit_is {
     return _run_exit(@_);
 }
 
-sub split_args {
+sub _split_args {
     # split the cmd and options like Git::Repository::Command::new does
     my @args = @_;
     my @opt;
