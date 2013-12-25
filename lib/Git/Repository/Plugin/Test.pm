@@ -1,8 +1,13 @@
 package Git::Repository::Plugin::Test;
+
 use base 'Git::Repository::Plugin';
 use base 'Test::Builder::Module';
 
-sub _keywords { qw( run_exit_ok run_exit_is ) }
+use Carp qw();
+use File::Copy qw();
+use File::Spec qw();
+
+sub _keywords { qw( run_exit_ok run_exit_is hook_path install_hook ) }
 
 sub run_exit_ok {
     my $repo = shift;
@@ -11,6 +16,26 @@ sub run_exit_ok {
 
 sub run_exit_is {
     return _run_exit(@_);
+}
+
+sub hook_path {
+    my ($repo, $target) = @_;
+    return File::Spec->join($repo->git_dir, 'hooks', $target);
+}
+
+sub install_hook {
+    my ($repo, $source, $target) = @_;
+
+    my $dest = $repo->hook_path($target);
+    my $copy_rv = File::Copy::copy($source, $dest);
+    unless ($copy_rv) {
+        Carp::croak "install_hook failed: $!";
+    }
+
+    my $chmod_rv = chmod 0755, $dest;
+    unless ($chmod_rv) {
+        Carp::croak "install_hook failed: $!";
+    }
 }
 
 sub _run_exit {
@@ -55,7 +80,7 @@ __END__
 
 =head1 NAME
 
-Git::Repository::Plugin::Test - Test exit of Git commands
+Git::Repository::Plugin::Test - Helper methods for testing interactions with Git
 
 =head1 SYNOPSIS
 
@@ -69,6 +94,9 @@ Git::Repository::Plugin::Test - Test exit of Git commands
     # run Git commands as tests
     $repo->run_exit_ok('status');
     $repo->run_exit_is(1, 'nonexistant-subcommand');
+
+    # install a hook into the temporary repository
+    $repo->install_hook('my-hook-file', 'pre-receive');
 
 =head1 DESCRIPTION
 
@@ -89,6 +117,10 @@ reported as test failures.
 
 Like L<Git::Repository|Git::Repository>'s C<run> but exceptions are caught and
 reported as test failures unless exit code matches expected exit code.
+
+=head2 install_hook($source, $target)
+
+Install a C<$target>, e.g. 'pre-receive', hook into the repository.
 
 =head1 SEE ALSO
 
