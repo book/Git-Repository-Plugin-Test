@@ -65,6 +65,7 @@ Git::Repository::Plugin::Test - Test exit of Git commands
     Git::Repository->run(init => $work_tree);
     my $repo = Git::Repository->new(work_tree => $work_tree);
 
+    # run Git commands as tests
     $repo->run_exit_ok('status');
     $repo->run_exit_is(1, 'nonexistant-subcommand');
 
@@ -73,9 +74,24 @@ Git::Repository::Plugin::Test - Test exit of Git commands
 Adds C<run_exit_ok> and C<run_exit_is> methods to the Git::Repository object
 that can be used for testing Git operations.
 
+=head1 METHODS
+
+L<Git::Repository::Plugin::Test|Git::Repository::Plugin::Test> adds the
+following methods:
+
+=head2 run_exit_ok(@cmd)
+
+Like L<Git::Repository|Git::Repository>'s C<run> but exceptions are caught and
+reported as test failures.
+
+=head2 run_exit_is($expected_exit_code, @cmd)
+
+Like L<Git::Repository|Git::Repository>'s C<run> but exceptions are caught and
+reported as test failures unless exit code matches expected exit code.
+
 =head1 SEE ALSO
 
-L<Git::Repository|Git::Repository>
+L<Git::Repository|Git::Repository>, L<Test::Builder|Test::Builder>
 
 =head1 AUTHOR
 
