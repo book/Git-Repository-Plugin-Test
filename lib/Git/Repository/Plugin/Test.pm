@@ -18,9 +18,9 @@ sub _run_exit {
     my $expected_exit = shift;
     my ($cmd, $opt) = _split_args(@_);
 
-    unshift @$opt, (quiet => !$ENV{TEST_VERBOSE});
+    $opt->{quiet} = !$ENV{TEST_VERBOSE};
 
-    my $out = eval { $repo->run(@$cmd, { @$opt }) };
+    my $out = eval { $repo->run(@$cmd, $opt) };
     my $exit = $? >> 8;
 
     my $test_name = sprintf('`%s` should exit %d',
@@ -41,9 +41,10 @@ sub _run_exit {
 sub _split_args {
     # split the cmd and options like Git::Repository::Command::new does
     my @args = @_;
-    my @opt;
-    my @cmd = grep { !( ref eq 'HASH' ? push @opt, $_ : 0 ) } @args;
-    return (\@cmd, \@opt);
+    my @o;
+    my @cmd = grep { !( ref eq 'HASH' ? push @o, $_ : 0 ) } @args;
+    Carp::croak "Too many option hashes given: @o" if @o > 1;
+    return (\@cmd, (shift @o || {}));
 }
 
 1;
