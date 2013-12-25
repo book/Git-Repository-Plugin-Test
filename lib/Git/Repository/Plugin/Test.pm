@@ -6,8 +6,9 @@ use base 'Test::Builder::Module';
 use Carp qw();
 use File::Copy qw();
 use File::Spec qw();
+use File::Temp qw();
 
-sub _keywords { qw( run_exit_ok run_exit_is hook_path install_hook ) }
+sub _keywords { qw( run_exit_ok run_exit_is init_tmp_repo hook_path install_hook ) }
 
 sub run_exit_ok {
     my $repo = shift;
@@ -16,6 +17,14 @@ sub run_exit_ok {
 
 sub run_exit_is {
     return _run_exit(@_);
+}
+
+sub init_tmp_repo {
+    my $class = shift;
+    my @options = @_;
+    my $dir = File::Temp::tempdir();
+    Git::Repository->run('init', @options, $dir);
+    return $dir;
 }
 
 sub hook_path {
@@ -117,6 +126,11 @@ reported as test failures.
 
 Like L<Git::Repository|Git::Repository>'s C<run> but exceptions are caught and
 reported as test failures unless exit code matches expected exit code.
+
+=head2 init_tmp_repo(@init_opts)
+
+Initializes a new repository in a temporary directory.  Options, such as
+C<--bare>, can be passed in.
 
 =head2 install_hook($source, $target)
 
