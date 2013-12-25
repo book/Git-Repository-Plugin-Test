@@ -6,9 +6,7 @@ use Test::More tests => 3;
 use File::Temp qw();
 use Git::Repository qw(Test);
 
-my $work_tree = File::Temp->newdir();
-Git::Repository->run(init => $work_tree);
-my $repo = Git::Repository->new(work_tree => $work_tree);
+my $repo = Git::Repository->new_tmp_repo();
 
 my $source = File::Temp->new();
 

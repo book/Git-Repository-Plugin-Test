@@ -8,7 +8,7 @@ use File::Copy qw();
 use File::Spec qw();
 use File::Temp qw();
 
-sub _keywords { qw( run_exit_ok run_exit_is init_tmp_repo hook_path install_hook ) }
+sub _keywords { qw( run_exit_ok run_exit_is init_tmp_repo new_tmp_repo hook_path install_hook ) }
 
 sub run_exit_ok {
     my $repo = shift;
@@ -25,6 +25,16 @@ sub init_tmp_repo {
     my $dir = File::Temp::tempdir();
     Git::Repository->run('init', @options, $dir);
     return $dir;
+}
+
+sub new_tmp_repo {
+    my $class = shift;
+    my ($cmd, $opt) = _split_args(@_);
+    my $dir = $class->init_tmp_repo(@$cmd);
+    my $is_bare = grep { $_ eq '--bare' } @$cmd;
+    my $type = $is_bare ? 'git_dir' : 'work_tree';
+    my $repo = $class->new($type => $dir, $opt);
+    return $repo;
 }
 
 sub hook_path {
@@ -96,9 +106,8 @@ Git::Repository::Plugin::Test - Helper methods for testing interactions with Git
     use Test::More tests => 2;
     use Git::Repository qw(Test);
 
-    my $work_tree = File::Temp->newdir();
-    Git::Repository->run(init => $work_tree);
-    my $repo = Git::Repository->new(work_tree => $work_tree);
+    # easily create a temporary repository to test with
+    my $repo = Git::Repository->new_tmp_repo();
 
     # run Git commands as tests
     $repo->run_exit_ok('status');
@@ -131,6 +140,14 @@ reported as test failures unless exit code matches expected exit code.
 
 Initializes a new repository in a temporary directory.  Options, such as
 C<--bare>, can be passed in.
+
+=head2 new_tmp_repo(@init_opts, $options)
+
+Initializes a new repository in a temporary directory and returns a
+L<Git::Repository|Git::Repository> object.  Like C<init_tmp_repo>,
+C<new_tmp_repo> accepts a list of options for the C<init> command and like
+L<Git::Repository|Git::Repository>'s C<new> C<new_tmp_repo> also accepts a
+reference to an option hash.
 
 =head2 install_hook($source, $target)
 
