@@ -38,11 +38,6 @@ sub new_tmp_repo {
     return $repo;
 }
 
-sub hook_path {
-    my ($repo, $target) = @_;
-    return File::Spec->join($repo->git_dir, 'hooks', $target);
-}
-
 sub install_hook {
     my ($repo, $source, $target) = @_;
 
@@ -57,6 +52,15 @@ sub install_hook {
         Carp::croak "install_hook failed: $!";
     }
 }
+
+# Undocumented Subs
+
+sub hook_path {
+    my ($repo, $target) = @_;
+    return File::Spec->join($repo->git_dir, 'hooks', $target);
+}
+
+# Private Subs
 
 sub _run_exit {
     my $repo = shift;
