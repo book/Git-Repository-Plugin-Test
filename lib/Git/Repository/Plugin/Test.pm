@@ -9,7 +9,7 @@ use File::Copy qw();
 use File::Spec qw();
 use File::Temp qw();
 
-sub _keywords { qw( run_exit_ok run_exit_is init_tmp_repo new_tmp_repo hook_path install_hook ) }
+sub _keywords { qw( run_exit_ok run_exit_is init_tmp_repo new_tmp_repo clone_tmp_repo hook_path install_hook ) }
 
 sub run_exit_ok {
     my $repo = shift;
@@ -33,6 +33,20 @@ sub new_tmp_repo {
     my ($cmd, $opt) = _split_args(@_);
 
     my $dir = $class->init_tmp_repo(@$cmd);
+
+    my $is_bare = grep { $_ eq '--bare' } @$cmd;
+    my $type = $is_bare ? 'git_dir' : 'work_tree';
+    my $repo = $class->new($type => $dir, $opt);
+
+    return $repo;
+}
+
+sub clone_tmp_repo {
+    my $class = shift;
+    my ($cmd, $opt) = _split_args(@_);
+
+    my $dir = File::Temp::tempdir();
+    Git::Repository->run('clone', @$cmd, $dir);
 
     my $is_bare = grep { $_ eq '--bare' } @$cmd;
     my $type = $is_bare ? 'git_dir' : 'work_tree';
@@ -152,6 +166,14 @@ C<--bare>, can be passed in.
 =head2 new_tmp_repo(@init_opts, $options)
 
 Initializes a new repository in a temporary directory and returns a
+L<Git::Repository|Git::Repository> object.  Like C<init_tmp_repo>,
+C<new_tmp_repo> accepts a list of options for the C<init> command and like
+L<Git::Repository|Git::Repository>'s C<new> C<new_tmp_repo> also accepts a
+reference to an option hash.
+
+=head2 clone_tmp_repo(@clone_opts, $options)
+
+Clones a repository into a temporary directory and returns a
 L<Git::Repository|Git::Repository> object.  Like C<init_tmp_repo>,
 C<new_tmp_repo> accepts a list of options for the C<init> command and like
 L<Git::Repository|Git::Repository>'s C<new> C<new_tmp_repo> also accepts a
