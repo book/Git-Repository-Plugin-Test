@@ -31,10 +31,13 @@ sub init_tmp_repo {
 sub new_tmp_repo {
     my $class = shift;
     my ($cmd, $opt) = _split_args(@_);
+
     my $dir = $class->init_tmp_repo(@$cmd);
+
     my $is_bare = grep { $_ eq '--bare' } @$cmd;
     my $type = $is_bare ? 'git_dir' : 'work_tree';
     my $repo = $class->new($type => $dir, $opt);
+
     return $repo;
 }
 
