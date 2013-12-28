@@ -4,7 +4,7 @@ Git::Repository::Plugin::Test - Helper methods for testing interactions with Git
 
 # VERSION
 
-version 0.002
+version 0.003
 
 # SYNOPSIS
 
@@ -49,6 +49,14 @@ Initializes a new repository in a temporary directory.  Options, such as
 ## new\_tmp\_repo(@init\_opts, $options)
 
 Initializes a new repository in a temporary directory and returns a
+[Git::Repository](https://metacpan.org/pod/Git::Repository) object.  Like `init_tmp_repo`,
+`new_tmp_repo` accepts a list of options for the `init` command and like
+[Git::Repository](https://metacpan.org/pod/Git::Repository)'s `new` `new_tmp_repo` also accepts a
+reference to an option hash.
+
+## clone\_tmp\_repo(@clone\_opts, $options)
+
+Clones a repository into a temporary directory and returns a
 [Git::Repository](https://metacpan.org/pod/Git::Repository) object.  Like `init_tmp_repo`,
 `new_tmp_repo` accepts a list of options for the `init` command and like
 [Git::Repository](https://metacpan.org/pod/Git::Repository)'s `new` `new_tmp_repo` also accepts a
