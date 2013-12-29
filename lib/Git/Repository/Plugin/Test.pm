@@ -9,7 +9,7 @@ use File::Copy qw();
 use File::Spec qw();
 use File::Temp qw();
 
-sub _keywords { qw( run_exit_ok run_exit_is ) }
+sub _keywords { qw( run_exit_ok run_exit_is branch_exists branch_not_exists ) }
 
 sub run_exit_ok {
     my $repo = shift;
@@ -20,7 +20,35 @@ sub run_exit_is {
     return _run_exit(@_);
 }
 
+sub branch_exists {
+    my $repo = shift;
+    my $branch = shift;
+
+    my $tb = __PACKAGE__->builder;
+    $repo->run('show-ref', '--verify', '--quiet', _normalize_branchname($branch));
+    my $exit = $? >> 8;
+    return $tb->ok($exit == 0, qq('$branch' branch exists));
+}
+
+sub branch_not_exists {
+    my $repo = shift;
+    my $branch = shift;
+
+    my $tb = __PACKAGE__->builder;
+    $repo->run('show-ref', '--verify', '--quiet', _normalize_branchname($branch));
+    my $exit = $? >> 8;
+    return $tb->ok($exit == 1, qq('$branch' branch does not exist));
+}
+
 # Private Subs
+
+sub _normalize_branchname {
+    my $branch = shift;
+    unless (index($branch, 'refs/heads/') == 0) {
+        $branch = 'refs/heads/' . $branch;
+    }
+    return $branch;
+}
 
 sub _run_exit {
     my $repo = shift;
@@ -96,6 +124,11 @@ reported as test failures.
 
 Like L<Git::Repository|Git::Repository>'s C<run> but exceptions are caught and
 reported as test failures unless exit code matches expected exit code.
+
+=head2 branch_exists($branchname)
+=head2 branch_not_exists($branchname)
+
+Test for the existance of a branch.
 
 =head1 SEE ALSO
 
