@@ -1,5 +1,8 @@
 Revision history for Git::Repository::Plugin::Test:
 
+0.004 2012-12-28
+ - Split methods across two plugins: Test and TestSetUp.
+
 0.003 2012-12-27
  - Add new method: clone_tmp_repo.
  - Improve test coverage.
