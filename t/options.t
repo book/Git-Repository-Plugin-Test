@@ -4,7 +4,7 @@ use warnings;
 use Test::More tests => 3;
 use Test::Fatal qw(exception);
 
-use Git::Repository qw(Test);
+use Git::Repository qw(Test TestSetUp);
 
 my $options = {
     env => {

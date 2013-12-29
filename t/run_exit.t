@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test::Builder::Tester tests => 4;
-use Git::Repository qw(Test);
+use Git::Repository qw(Test TestSetUp);
 use Test::More;
 
 use File::Temp qw();

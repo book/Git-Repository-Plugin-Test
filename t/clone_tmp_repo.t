@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More tests => 2;
 
-use Git::Repository qw(Test);
+use Git::Repository qw(Test TestSetUp);
 
 my $orig_repo = Git::Repository->new_tmp_repo();
 

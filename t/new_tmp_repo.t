@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More tests => 2;
 
-use Git::Repository qw(Test);
+use Git::Repository qw(Test TestSetUp);
 
 subtest 'standard repo' => sub {
     plan tests => 2;
