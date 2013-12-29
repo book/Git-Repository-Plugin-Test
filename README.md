@@ -4,22 +4,18 @@ Git::Repository::Plugin::Test - Helper methods for testing interactions with Git
 
 # VERSION
 
-version 0.003
+version 0.004
 
 # SYNOPSIS
 
     use Test::More tests => 2;
     use Git::Repository qw(Test);
 
-    # easily create a temporary repository to test with
-    my $repo = Git::Repository->new_tmp_repo();
+    my $repo = Git::Repository->new(...);
 
     # run Git commands as tests
     $repo->run_exit_ok('status');
     $repo->run_exit_is(1, 'nonexistant-subcommand');
-
-    # install a hook into the temporary repository
-    $repo->install_hook('my-hook-file', 'pre-receive');
 
 # DESCRIPTION
 
@@ -40,31 +36,6 @@ reported as test failures.
 
 Like [Git::Repository](https://metacpan.org/pod/Git::Repository)'s `run` but exceptions are caught and
 reported as test failures unless exit code matches expected exit code.
-
-## init\_tmp\_repo(@init\_opts)
-
-Initializes a new repository in a temporary directory.  Options, such as
-`--bare`, can be passed in.
-
-## new\_tmp\_repo(@init\_opts, $options)
-
-Initializes a new repository in a temporary directory and returns a
-[Git::Repository](https://metacpan.org/pod/Git::Repository) object.  Like `init_tmp_repo`,
-`new_tmp_repo` accepts a list of options for the `init` command and like
-[Git::Repository](https://metacpan.org/pod/Git::Repository)'s `new` `new_tmp_repo` also accepts a
-reference to an option hash.
-
-## clone\_tmp\_repo(@clone\_opts, $options)
-
-Clones a repository into a temporary directory and returns a
-[Git::Repository](https://metacpan.org/pod/Git::Repository) object.  Like `init_tmp_repo`,
-`new_tmp_repo` accepts a list of options for the `init` command and like
-[Git::Repository](https://metacpan.org/pod/Git::Repository)'s `new` `new_tmp_repo` also accepts a
-reference to an option hash.
-
-## install\_hook($source, $target)
-
-Install a `$target`, e.g. 'pre-receive', hook into the repository.
 
 # SEE ALSO
 
