@@ -39,7 +39,7 @@ reported as test failures unless exit code matches expected exit code.
 
 # SEE ALSO
 
-[Git::Repository](https://metacpan.org/pod/Git::Repository), [Test::Builder](https://metacpan.org/pod/Test::Builder)
+[Git::Repository](https://metacpan.org/pod/Git::Repository), [Test::Builder](https://metacpan.org/pod/Test::Builder), [Git::Repository::Plugin::TestSetUp](https://metacpan.org/pod/Git::Repository::Plugin::TestSetUp)
 
 # AUTHOR
 
