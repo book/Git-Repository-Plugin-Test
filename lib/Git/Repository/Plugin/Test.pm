@@ -99,7 +99,7 @@ reported as test failures unless exit code matches expected exit code.
 
 =head1 SEE ALSO
 
-L<Git::Repository|Git::Repository>, L<Test::Builder|Test::Builder>
+L<Git::Repository|Git::Repository>, L<Test::Builder|Test::Builder>, L<Git::Repository::Plugin::TestSetUp|Git::Repository::Plugin::TestSetUp>
 
 =head1 AUTHOR
 
