@@ -37,6 +37,11 @@ reported as test failures.
 Like [Git::Repository](https://metacpan.org/pod/Git::Repository)'s `run` but exceptions are caught and
 reported as test failures unless exit code matches expected exit code.
 
+## branch\_exists($branchname)
+=head2 branch\_not\_exists($branchname)
+
+Test for the existance of a branch.
+
 # SEE ALSO
 
 [Git::Repository](https://metacpan.org/pod/Git::Repository), [Test::Builder](https://metacpan.org/pod/Test::Builder), [Git::Repository::Plugin::TestSetUp](https://metacpan.org/pod/Git::Repository::Plugin::TestSetUp)
