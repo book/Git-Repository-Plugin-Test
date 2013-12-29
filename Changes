@@ -1,7 +1,10 @@
 Revision history for Git::Repository::Plugin::Test:
 
 0.004 2012-12-28
+ - Add new methods: branch_exists, branch_not_exists.
  - Split methods across two plugins: Test and TestSetUp.
+   Test: run_exit_ok, run_exit_is
+   TestSetUp: new_tmp_repo, init_tmp_repo, install_hook, clone_tmp_repo
 
 0.003 2012-12-27
  - Add new method: clone_tmp_repo.
