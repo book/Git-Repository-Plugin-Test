@@ -1,5 +1,8 @@
 Revision history for Git::Repository::Plugin::Test:
 
+0.007 2012-12-30
+ - Specify minimum version on Test::More and Git::Repository.
+
 0.006 2012-12-30
  - Prevent Git::Repository::Plugin::File from incorrectly being specified as a
    dependency.
