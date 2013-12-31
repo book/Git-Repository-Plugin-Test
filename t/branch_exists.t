@@ -2,13 +2,18 @@ use strict;
 use warnings;
 
 use Test::Builder::Tester tests => 4;
-use Git::Repository qw(File Test TestSetUp);
-use Test::More;
+
+use File::Spec qw();
+use Git::Repository qw(Test TestSetUp);
+use IO::File qw();
 
 my $repo = Git::Repository->new_tmp_repo();
-my $readme = $repo->file('README.md');
-$readme->openw->say('Something about nothing.');
-$readme->add->commit('-m', "add $readme");
+my $readme_path = File::Spec->join($repo->work_tree, 'README.md');
+my $readme = IO::File->new($readme_path, 'w');
+$readme->print("Something about nothing.\n");
+$readme->close();
+$repo->run('add', $readme_path);
+$repo->run('commit', '-m', "add $readme_path");
 
 test_out(q(ok 1 - 'master' branch exists));
 $repo->branch_exists('master');
