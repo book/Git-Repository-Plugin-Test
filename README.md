@@ -4,7 +4,7 @@ Git::Repository::Plugin::Test - Helper methods for testing interactions with Git
 
 # VERSION
 
-version 0.006
+version 0.007
 
 # SYNOPSIS
 
