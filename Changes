@@ -1,6 +1,10 @@
 Revision history for Git::Repository::Plugin::Test:
 
-0.005 1012-12-30
+0.006 2012-12-30
+ - Prevent Git::Repository::Plugin::File from incorrectly being specified as a
+   dependency.
+
+0.005 2012-12-30
  - Fix circular dependency caused by using Git::Repository::Plugin::File.
 
 0.004 2012-12-28
