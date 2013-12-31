@@ -2,8 +2,8 @@ requires 'Carp';
 requires 'File::Copy';
 requires 'File::Spec';
 requires 'File::Temp';
-requires 'Git::Repository';
-requires 'Test::More';
+requires 'Git::Repository', '1.13';
+requires 'Test::More', '0.94';
 
 on 'develop' => sub {
     requires 'Archive::Tar::Wrapper';
