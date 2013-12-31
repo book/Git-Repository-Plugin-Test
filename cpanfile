@@ -5,10 +5,6 @@ requires 'File::Temp';
 requires 'Git::Repository';
 requires 'Test::More';
 
-on 'test' => sub {
-    requires 'Git::Repository::Plugin::File';
-};
-
 on 'develop' => sub {
     requires 'Archive::Tar::Wrapper';
     requires 'Config::Identity';
