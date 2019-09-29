@@ -4,6 +4,7 @@ requires 'File::Spec';
 requires 'File::Temp';
 requires 'Git::Repository', '1.13';
 requires 'Test::More', '0.94';
+requires 'Test::Fatal';
 
 on 'develop' => sub {
     requires 'Archive::Tar::Wrapper';
